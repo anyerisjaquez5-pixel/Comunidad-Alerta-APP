@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { NetworkService } from '../services/network.service';
 
 @Component({
   selector: 'app-home',
@@ -6,8 +7,13 @@ import { Component } from '@angular/core';
   styleUrls: ['home.page.scss'],
   standalone: false,
 })
-export class HomePage {
+export class HomePage implements OnInit {
 
-  constructor() {}
+  conectado: boolean = true;
 
+  constructor(private networkService: NetworkService) {}
+
+  async ngOnInit() {
+    this.conectado = await this.networkService.obtenerEstado();
+  }
 }

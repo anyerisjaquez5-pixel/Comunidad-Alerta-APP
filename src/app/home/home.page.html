@@ -1,20 +1,41 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>
-      Blank
-    </ion-title>
+    <ion-title>Comunidad Alerta</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content class="ion-padding">
 
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>Start with Ionic <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a></p>
-  </div>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Estado de conexión</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <!-- Se muestra cuando hay conexión -->
+      <div *ngIf="conectado">
+        <ion-badge color="success">EN LÍNEA</ion-badge>
+
+        <h2>Conectado a Internet</h2>
+
+        <p>
+          La aplicación está funcionando en línea.
+        </p>
+      </div>
+
+      <!-- Se muestra cuando no hay conexión -->
+      <div *ngIf="!conectado">
+        <ion-badge color="danger">SIN CONEXIÓN</ion-badge>
+
+        <h2>Sin conexión</h2>
+
+        <p>
+          Estás en modo offline. Algunas funciones pueden no estar disponibles.
+        </p>
+      </div>
+
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
