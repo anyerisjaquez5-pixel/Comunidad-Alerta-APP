@@ -12,8 +12,7 @@
     </ion-card-header>
 
     <ion-card-content>
-
-      <!-- Se muestra cuando hay conexión -->
+      <!-- Se muestra cuando existe conexión -->
       <div *ngIf="conectado">
         <ion-badge color="success">EN LÍNEA</ion-badge>
 
@@ -22,9 +21,11 @@
         <p>
           La aplicación está funcionando en línea.
         </p>
+        <p>
+          <strong>Tipo de conexión:</strong> {{ tipoConexion }}
+        </p>
       </div>
-
-      <!-- Se muestra cuando no hay conexión -->
+      <!-- Se muestra cuando no existe conexión -->
       <div *ngIf="!conectado">
         <ion-badge color="danger">SIN CONEXIÓN</ion-badge>
 
@@ -33,8 +34,14 @@
         <p>
           Estás en modo offline. Algunas funciones pueden no estar disponibles.
         </p>
+        <p>
+          <strong>Tipo de conexión:</strong> {{ tipoConexion }}
+        </p>
       </div>
-
+      <!-- Botón para guardar datos localmente -->
+      <ion-button expand="block" (click)="guardarDato()">
+        Guardar dato
+      </ion-button>
     </ion-card-content>
   </ion-card>
 
