@@ -1,4 +1,4 @@
- import { Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Network, ConnectionStatus } from '@capacitor/network';
 import { BehaviorSubject } from 'rxjs';
 

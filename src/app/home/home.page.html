@@ -6,14 +6,17 @@
 
 <ion-content class="ion-padding">
 
+  <!-- ESTADO DE CONEXIÓN A INTERNET -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Estado de conexión</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-      <!-- Se muestra cuando existe conexión -->
+
+      <!-- Con conexión -->
       <div *ngIf="conectado">
+
         <ion-badge color="success">EN LÍNEA</ion-badge>
 
         <h2>Conectado a Internet</h2>
@@ -21,12 +24,16 @@
         <p>
           La aplicación está funcionando en línea.
         </p>
+
         <p>
           <strong>Tipo de conexión:</strong> {{ tipoConexion }}
         </p>
+
       </div>
-      <!-- Se muestra cuando no existe conexión -->
+
+      <!-- Sin conexión -->
       <div *ngIf="!conectado">
+
         <ion-badge color="danger">SIN CONEXIÓN</ion-badge>
 
         <h2>Sin conexión</h2>
@@ -34,15 +41,124 @@
         <p>
           Estás en modo offline. Algunas funciones pueden no estar disponibles.
         </p>
+
         <p>
           <strong>Tipo de conexión:</strong> {{ tipoConexion }}
         </p>
+
       </div>
-      <!-- Botón para guardar datos localmente -->
+
+      <!-- Guardar dato -->
       <ion-button expand="block" (click)="guardarDato()">
         Guardar dato
       </ion-button>
+
     </ion-card-content>
+  </ion-card>
+
+
+  <!-- BLUETOOTH BLE -->
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title>Bluetooth</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <!-- Estado de Bluetooth -->
+      <div *ngIf="bluetoothActivo">
+        <ion-badge color="success">
+          BLUETOOTH ACTIVO
+        </ion-badge>
+
+        <p>
+          Bluetooth está disponible para buscar dispositivos cercanos.
+        </p>
+      </div>
+
+      <div *ngIf="!bluetoothActivo">
+        <ion-badge color="warning">
+          BLUETOOTH NO DISPONIBLE
+        </ion-badge>
+
+        <p>
+          Activa el Bluetooth del dispositivo para realizar una búsqueda.
+        </p>
+      </div>
+
+
+      <!-- Botón de búsqueda -->
+      <ion-button
+        expand="block"
+        (click)="buscarBluetooth()"
+        [disabled]="buscandoBluetooth">
+
+        <span *ngIf="!buscandoBluetooth">
+          Buscar dispositivos Bluetooth
+        </span>
+
+        <span *ngIf="buscandoBluetooth">
+          Buscando dispositivos...
+        </span>
+
+      </ion-button>
+
+
+      <!-- Indicador de búsqueda -->
+      <div *ngIf="buscandoBluetooth" class="ion-text-center ion-padding">
+
+        <ion-spinner name="crescent"></ion-spinner>
+
+        <p>
+          Buscando dispositivos Bluetooth cercanos...
+        </p>
+
+      </div>
+
+
+      <!-- Dispositivos encontrados -->
+      <div *ngIf="dispositivosBluetooth.length > 0">
+
+        <h3>Dispositivos encontrados</h3>
+
+        <ion-list>
+
+          <ion-item
+            *ngFor="let dispositivo of dispositivosBluetooth">
+
+            <ion-label>
+
+              <h2>
+                {{ dispositivo.device.name || 'Dispositivo sin nombre' }}
+              </h2>
+
+              <p>
+                ID: {{ dispositivo.device.deviceId }}
+              </p>
+
+            </ion-label>
+
+          </ion-item>
+
+        </ion-list>
+
+      </div>
+
+
+      <!-- Sin dispositivos -->
+      <div
+        *ngIf="!buscandoBluetooth && dispositivosBluetooth.length === 0"
+        class="ion-text-center ion-padding">
+
+        <p>
+          No se han encontrado dispositivos Bluetooth.
+        </p>
+
+      </div>
+
+    </ion-card-content>
+
   </ion-card>
 
 </ion-content>
