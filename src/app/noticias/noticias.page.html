@@ -1,0 +1,59 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Noticias</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <ion-refresher
+    slot="fixed"
+    (ionRefresh)="actualizarNoticias($event)">
+
+    <ion-refresher-content
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="crescent"
+      refreshingText="Actualizando noticias...">
+    </ion-refresher-content>
+
+  </ion-refresher>
+
+  <h2>Noticias de la comunidad</h2>
+
+  <div *ngIf="cargando" class="estado">
+
+    <ion-spinner name="crescent"></ion-spinner>
+
+    <p>Cargando noticias...</p>
+
+  </div>
+
+  <div *ngIf="error && !cargando" class="estado error">
+
+    <p>No fue posible cargar las noticias.</p>
+
+    <ion-button
+      fill="outline"
+      (click)="cargarNoticiasIniciales()">
+      Intentar nuevamente
+    </ion-button>
+
+  </div>
+
+  <ion-card *ngFor="let noticia of noticias">
+
+    <ion-card-header>
+
+      <ion-card-title>
+        {{ noticia.title }}
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+      {{ noticia.body }}
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>
