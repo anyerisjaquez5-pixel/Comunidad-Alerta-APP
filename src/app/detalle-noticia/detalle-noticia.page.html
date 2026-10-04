@@ -1,0 +1,83 @@
+<ion-header>
+  <ion-toolbar>
+
+    <ion-buttons slot="start">
+      <ion-back-button
+        defaultHref="/tabs/noticias">
+      </ion-back-button>
+    </ion-buttons>
+
+    <ion-title>Detalle_noticia</ion-title>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <div
+    *ngIf="cargando"
+    class="estado">
+
+    <ion-spinner
+      name="crescent">
+    </ion-spinner>
+
+    <p>
+      Cargando noticia...
+    </p>
+
+  </div>
+
+  <div
+    *ngIf="error"
+    class="estado">
+
+    <p>
+      No fue posible cargar el detalle de la noticia.
+    </p>
+
+    <ion-button
+      fill="outline"
+      (click)="cargarNoticia()">
+
+      Intentar nuevamente
+
+    </ion-button>
+
+  </div>
+
+  <ion-card
+    *ngIf="noticia && !cargando">
+
+    <ion-card-header>
+
+      <ion-card-title>
+        {{ noticia.title }}
+      </ion-card-title>
+
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <p>
+        {{ noticia.body }}
+      </p>
+
+      <p
+        *ngIf="noticia.fecha">
+
+        <strong>Fecha:</strong>
+        {{ noticia.fecha | date:'dd/MM/yyyy HH:mm' }}
+
+      </p>
+
+      <p>
+        <strong>ID de la noticia:</strong>
+        {{ noticia.id }}
+      </p>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

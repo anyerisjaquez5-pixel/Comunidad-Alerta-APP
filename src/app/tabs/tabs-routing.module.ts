@@ -7,7 +7,9 @@ const routes: Routes = [
   {
     path: '',
     component: TabsPage,
+
     children: [
+
       {
         path: 'home',
         loadChildren: () =>
@@ -15,6 +17,7 @@ const routes: Routes = [
             m => m.HomePageModule
           )
       },
+
       {
         path: 'noticias',
         loadChildren: () =>
@@ -22,17 +25,40 @@ const routes: Routes = [
             m => m.NoticiasPageModule
           )
       },
+
+      {
+        path: 'reportes',
+        loadChildren: () =>
+          import('../reportes/reportes.module').then(
+            m => m.ReportesPageModule
+          )
+      },
+
+      {
+        path: 'detalle-noticia',
+        loadChildren: () =>
+          import('../detalle-noticia/detalle-noticia.module').then(
+            m => m.DetalleNoticiaPageModule
+          )
+      },
+
       {
         path: '',
         redirectTo: 'home',
         pathMatch: 'full'
       }
+
     ]
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  imports: [
+    RouterModule.forChild(routes)
+  ],
+
+  exports: [
+    RouterModule
+  ],
 })
 export class TabsPageRoutingModule {}

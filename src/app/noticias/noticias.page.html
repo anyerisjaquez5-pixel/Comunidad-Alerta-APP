@@ -1,10 +1,14 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+
     <ion-title>Noticias</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
+<ion-content>
 
   <ion-refresher
     slot="fixed"
@@ -18,42 +22,179 @@
 
   </ion-refresher>
 
-  <h2>Noticias de la comunidad</h2>
+  <div class="contenido">
 
-  <div *ngIf="cargando" class="estado">
+    <div class="encabezado">
+      <ion-icon name="newspaper-outline"></ion-icon>
 
-    <ion-spinner name="crescent"></ion-spinner>
+      <div>
+        <h2>Noticias de la comunidad</h2>
 
-    <p>Cargando noticias...</p>
+        <p>
+          Información y novedades para la comunidad
+        </p>
+      </div>
+    </div>
+
+    <ion-card class="card-publicar">
+
+      <ion-card-header>
+        <ion-card-title>
+          <ion-icon name="create-outline"></ion-icon>
+          Publicar noticia
+        </ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <ion-input
+          class="campo"
+          label="Título"
+          label-placement="stacked"
+          fill="outline"
+          placeholder="Escribe el título"
+          [(ngModel)]="nuevoTitulo">
+        </ion-input>
+
+        <ion-textarea
+          class="campo"
+          label="Contenido"
+          label-placement="stacked"
+          fill="outline"
+          placeholder="Escribe el contenido"
+          rows="5"
+          [(ngModel)]="nuevoContenido">
+        </ion-textarea>
+
+        <ion-button
+          class="boton-publicar"
+          expand="block"
+          (click)="publicarNoticia()"
+          [disabled]="publicando">
+
+          <ion-spinner
+            *ngIf="publicando"
+            name="crescent">
+          </ion-spinner>
+
+          <ion-icon
+            *ngIf="!publicando"
+            slot="start"
+            name="send-outline">
+          </ion-icon>
+
+          <span *ngIf="!publicando">
+            Publicar noticia
+          </span>
+
+        </ion-button>
+
+        <p
+          *ngIf="mensajePublicacion"
+          class="mensaje-publicacion">
+          {{ mensajePublicacion }}
+        </p>
+
+      </ion-card-content>
+
+    </ion-card>
+
+    <div
+      *ngIf="cargando"
+      class="estado">
+
+      <ion-spinner name="crescent"></ion-spinner>
+
+      <p>
+        Cargando noticias...
+      </p>
+
+    </div>
+
+    <div
+      *ngIf="error && !cargando"
+      class="estado error">
+
+      <ion-icon
+        name="cloud-offline-outline">
+      </ion-icon>
+
+      <p>
+        No fue posible cargar las noticias.
+      </p>
+
+      <ion-button
+        fill="outline"
+        (click)="cargarNoticiasIniciales()">
+
+        Intentar nuevamente
+
+      </ion-button>
+
+    </div>
+
+    <div
+      *ngIf="noticias.length > 0 && !cargando"
+      class="lista-noticias">
+
+      <h3>
+        Noticias recientes
+      </h3>
+
+      <ion-card
+        class="card-noticia"
+        *ngFor="let noticia of noticias"
+        (click)="abrirDetalle(noticia.id)">
+
+        <ion-card-header>
+
+          <div class="titulo-noticia">
+
+            <ion-icon
+              name="newspaper-outline">
+            </ion-icon>
+
+            <ion-card-title>
+              {{ noticia.title }}
+            </ion-card-title>
+
+          </div>
+
+        </ion-card-header>
+
+        <ion-card-content>
+
+          <p>
+            {{ noticia.body }}
+          </p>
+
+          <p
+            *ngIf="noticia.fecha"
+            class="fecha-noticia">
+
+            <strong>Fecha:</strong>
+            {{ noticia.fecha | date:'dd/MM/yyyy HH:mm' }}
+
+          </p>
+
+          <div class="ver-detalle">
+
+            <span>
+              Ver noticia
+            </span>
+
+            <ion-icon
+              name="chevron-forward-outline">
+            </ion-icon>
+
+          </div>
+
+        </ion-card-content>
+
+      </ion-card>
+
+    </div>
 
   </div>
-
-  <div *ngIf="error && !cargando" class="estado error">
-
-    <p>No fue posible cargar las noticias.</p>
-
-    <ion-button
-      fill="outline"
-      (click)="cargarNoticiasIniciales()">
-      Intentar nuevamente
-    </ion-button>
-
-  </div>
-
-  <ion-card *ngFor="let noticia of noticias">
-
-    <ion-card-header>
-
-      <ion-card-title>
-        {{ noticia.title }}
-      </ion-card-title>
-
-    </ion-card-header>
-
-    <ion-card-content>
-      {{ noticia.body }}
-    </ion-card-content>
-
-  </ion-card>
 
 </ion-content>

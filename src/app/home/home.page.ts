@@ -21,6 +21,7 @@ export class HomePage implements OnInit, OnDestroy {
   buscandoBluetooth: boolean = false;
 
   private networkSubscription?: Subscription;
+  private bluetoothTimer?: ReturnType<typeof setTimeout>;
 
   constructor(
     private networkService: NetworkService,
@@ -57,10 +58,11 @@ export class HomePage implements OnInit, OnDestroy {
       this.bluetoothActivo =
         await BleClient.isEnabled();
 
-      console.log(
-        'Bluetooth disponible:',
-        this.bluetoothActivo
-      );
+      if (!this.bluetoothActivo) {
+        console.log('Bluetooth no disponible.');
+      } else {
+        console.log('Bluetooth disponible:', this.bluetoothActivo);
+      }
 
     } catch (error) {
 
@@ -80,6 +82,11 @@ export class HomePage implements OnInit, OnDestroy {
 
     this.dispositivosBluetooth = [];
     this.buscandoBluetooth = true;
+    // Cancelar temporizador anterior si existe
+    if (this.bluetoothTimer) {
+      clearTimeout(this.bluetoothTimer);
+      this.bluetoothTimer = undefined;
+    }
 
     try {
 
@@ -131,7 +138,7 @@ export class HomePage implements OnInit, OnDestroy {
       );
 
       // Mantener la búsqueda durante 8 segundos
-      setTimeout(() => {
+      this.bluetoothTimer = setTimeout(() => {
         this.detenerBusquedaBluetooth();
       }, 8000);
 
@@ -154,6 +161,11 @@ export class HomePage implements OnInit, OnDestroy {
 
   // Detener búsqueda Bluetooth
   async detenerBusquedaBluetooth() {
+    // Cancelar temporizador pendiente
+    if (this.bluetoothTimer) {
+      clearTimeout(this.bluetoothTimer);
+      this.bluetoothTimer = undefined;
+    }
 
     try {
 
@@ -231,9 +243,12 @@ export class HomePage implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-
+    
     this.networkSubscription?.unsubscribe();
-
+    if (this.bluetoothTimer) {
+      clearTimeout(this.bluetoothTimer);
+      this.bluetoothTimer = undefined;
+    }
     this.detenerBusquedaBluetooth();
   }
 }
