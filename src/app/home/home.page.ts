@@ -242,6 +242,11 @@ export class HomePage implements OnInit, OnDestroy {
     }
   }
 
+  ionViewWillLeave(): void {
+    // Libera el escaneo antes de abrir otra sección BLE
+    void this.detenerBusquedaBluetooth();
+  }
+
   ngOnDestroy() {
     
     this.networkSubscription?.unsubscribe();

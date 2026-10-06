@@ -1,0 +1,67 @@
+<ion-header><ion-toolbar><ion-title>Comunidad</ion-title></ion-toolbar></ion-header>
+<ion-content class="ion-padding">
+  <p role="status" aria-live="polite">{{ mensaje }}</p>
+  <ion-card>
+    <ion-card-header><ion-card-title>Mi perfil</ion-card-title></ion-card-header>
+    <ion-card-content>
+      <p>Se guarda en este dispositivo, no es una cuenta verificada</p>
+      <ion-input label="Nombre" labelPlacement="stacked" [(ngModel)]="perfil.nombre" maxlength="40"></ion-input>
+      <ion-input label="Sector" labelPlacement="stacked" [(ngModel)]="perfil.sector" maxlength="60"></ion-input>
+      <ion-textarea label="Descripción" labelPlacement="stacked" [(ngModel)]="perfil.descripcion" maxlength="160"></ion-textarea>
+      <ion-button (click)="guardarPerfil()">Guardar perfil</ion-button>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header><ion-card-title>Nueva nota comunitaria</ion-card-title></ion-card-header>
+    <ion-card-content>
+      <ion-input label="Título" labelPlacement="stacked" [(ngModel)]="titulo" maxlength="60"></ion-input>
+      <ion-textarea label="Contenido" labelPlacement="stacked" [(ngModel)]="contenido" maxlength="240"></ion-textarea>
+      <p>Usa avisos breves y evita datos privados</p>
+      <ion-button (click)="crear()">Guardar nota</ion-button>
+    </ion-card-content>
+  </ion-card>
+  <ion-card>
+    <ion-card-header><ion-card-title>Recibir notas</ion-card-title></ion-card-header>
+    <ion-card-content>
+      <p>{{ estadoNfc }}</p>
+      <ion-button [disabled]="ocupado || publicando" (click)="usarNfc()">Leer etiqueta NFC</ion-button>
+      <ion-button [disabled]="ocupado || publicando" (click)="buscar()">Buscar notas BLE</ion-button>
+      @if (ocupado || publicando) {
+        <ion-button fill="outline" (click)="detener()">Detener</ion-button>
+      }
+      <ion-list>
+        @for (item of dispositivos; track item) {
+          <ion-item>
+            <ion-label>{{ item.device.name || 'Comunidad Alerta' }}<p>{{ item.device.deviceId }}</p></ion-label>
+            <ion-button [disabled]="ocupado || publicando" (click)="recibir(item.device.deviceId)">Leer nota</ion-button>
+          </ion-item>
+        }
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+  @if (recibida) {
+    <ion-card>
+      <ion-card-header><ion-card-title>{{ recibida.titulo }}</ion-card-title></ion-card-header>
+      <ion-card-content>
+        <p>{{ recibida.contenido }}</p><p>Autor declarado: {{ recibida.autor }}</p>
+        <p>{{ recibida.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
+        <ion-button (click)="guardarRecibida()">Guardar recibida</ion-button>
+        <ion-button fill="outline" (click)="recibida = undefined">Descartar</ion-button>
+      </ion-card-content>
+    </ion-card>
+  }
+  <h2>Mis notas</h2>@if (!notas.length) {
+  <p>Todavía no hay notas guardadas</p>
+}
+@for (nota of notas; track nota) {
+  <ion-card>
+    <ion-card-header><ion-card-title>{{ nota.titulo }}</ion-card-title></ion-card-header>
+    <ion-card-content>
+      <p>{{ nota.contenido }}</p><p>{{ nota.autor }} · {{ nota.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
+      <p>Escribir NFC reemplaza el contenido anterior de la etiqueta</p>
+      <ion-button [disabled]="ocupado || publicando" (click)="usarNfc(nota)">Escribir NFC</ion-button>
+      <ion-button [disabled]="ocupado || publicando" (click)="publicar(nota)">Compartir BLE</ion-button>
+    </ion-card-content>
+  </ion-card>
+}
+</ion-content>

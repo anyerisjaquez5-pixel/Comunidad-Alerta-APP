@@ -35,6 +35,11 @@ const routes: Routes = [
       },
 
       {
+        path: 'comunidad',
+        loadChildren: () => import('../community/community.module').then(m => m.CommunityModule)
+      },
+
+      {
         path: 'detalle-noticia',
         loadChildren: () =>
           import('../detalle-noticia/detalle-noticia.module').then(
