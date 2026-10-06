@@ -53,9 +53,11 @@ export class CommunityPage implements OnDestroy {
   async usarNfc(nota?: Nota): Promise<void> {
     if (this.ocupado || this.publicando) return;
     this.ocupado = true;
+    this.recibida = undefined;
     this.mensaje = nota ? 'Acerca la etiqueta para reemplazar su contenido con esta nota' : 'Acerca la etiqueta para leer la nota';
     try {
       const recibida = await this.nfc.ejecutar(nota);
+      if (!this.visible) return;
       if (recibida) this.recibida = recibida;
       this.mensaje = nota ? 'Nota escrita en la etiqueta' : 'Nota leída, revisa el contenido antes de guardarlo';
     } catch (error) { this.error(error); }
