@@ -13,6 +13,10 @@ const routes: Routes = [
     path: '',
     redirectTo: 'tabs',
     pathMatch: 'full'
+  },
+  {
+    path: 'multimedia',
+    loadChildren: () => import('./multimedia/multimedia.module').then( m => m.MultimediaPageModule)
   }
 ];
 

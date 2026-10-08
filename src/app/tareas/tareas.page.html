@@ -1,0 +1,66 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mis tareas</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refrescar($event)">
+    <ion-refresher-content pullingText="Desliza para actualizar" refreshingText="Actualizando..."></ion-refresher-content>
+  </ion-refresher>
+
+  <div class="ion-padding">
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>Nueva tarea</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <ion-input
+          label="Tarea"
+          labelPlacement="stacked"
+          placeholder="Escribe una tarea"
+          [(ngModel)]="titulo"
+          maxlength="120"
+          (keyup.enter)="agregar()">
+        </ion-input>
+        <ion-button expand="block" class="ion-margin-top" (click)="agregar()">
+          <ion-icon slot="start" name="add-outline"></ion-icon>
+          Agregar tarea
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+
+    <p class="mensaje" role="status" aria-live="polite">{{ mensaje }}</p>
+  </div>
+
+  <ion-list>
+    <ion-item-sliding *ngFor="let tarea of tareas">
+      <ion-item [class.completada]="tarea.completada === 1">
+        <ion-checkbox
+          slot="start"
+          [checked]="tarea.completada === 1"
+          (ionChange)="cambiarEstado(tarea)">
+        </ion-checkbox>
+        <ion-label>
+          <h2>{{ tarea.titulo }}</h2>
+          <p>{{ tarea.completada ? 'Completada' : 'Pendiente' }} · {{ tarea.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
+        </ion-label>
+        <ion-button fill="clear" aria-label="Editar tarea" (click)="editar(tarea)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+      </ion-item>
+
+      <ion-item-options side="end">
+        <ion-item-option color="danger" (click)="eliminar(tarea)">
+          <ion-icon slot="top" name="trash-outline"></ion-icon>
+          Eliminar
+        </ion-item-option>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <div *ngIf="!cargando && !tareas.length" class="vacio ion-padding">
+    <ion-icon name="checkmark-done-outline"></ion-icon>
+    <p>No tienes tareas pendientes.</p>
+  </div>
+</ion-content>

@@ -14,9 +14,34 @@
     <ion-card-content>
       En esta sección se podrán consultar los reportes realizados
       por la comunidad.
-      
     </ion-card-content>
+  </ion-card>
 
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>📷 Foto de notas</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <p>
+        Utiliza la cámara para guardar una fotografía de tus notas
+        o evidencias relacionadas con el reporte.
+      </p>
+
+      <ion-button expand="block" (click)="tomarFoto()">
+        <ion-icon name="camera-outline" slot="start"></ion-icon>
+        Tomar foto
+      </ion-button>
+
+      <div *ngIf="fotoNotas" class="foto-container">
+        <ion-img
+          [src]="fotoNotas"
+          alt="Foto de notas">
+        </ion-img>
+      </div>
+
+    </ion-card-content>
   </ion-card>
 
 </ion-content>

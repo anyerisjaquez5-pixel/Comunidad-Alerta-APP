@@ -1,0 +1,182 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Multimedia</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Presentación del módulo -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="headset-outline"></ion-icon>
+        Podcasts educativos
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      Escucha contenidos relacionados con la participación
+      ciudadana, la tecnología y el cuidado de nuestra comunidad.
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Lista de podcasts disponibles -->
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Lista de podcasts</ion-card-title>
+    </ion-card-header>
+
+    <ion-list>
+
+      <ion-item
+        button
+        *ngFor="let podcast of podcasts"
+        (click)="seleccionarPodcast(podcast)"
+        [class.podcast-seleccionado]="podcast === podcastSeleccionado">
+
+        <ion-icon
+          name="musical-notes-outline"
+          slot="start">
+        </ion-icon>
+
+        <ion-label>
+          <h2>{{ podcast.titulo }}</h2>
+          <p>{{ podcast.descripcion }}</p>
+        </ion-label>
+
+      </ion-item>
+
+    </ion-list>
+  </ion-card>
+
+  <!-- Reproductor del podcast seleccionado -->
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title>
+        Reproductor
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <h2>{{ podcastSeleccionado.titulo }}</h2>
+
+      <p>
+        {{ podcastSeleccionado.descripcion }}
+      </p>
+
+      <!-- Barra de progreso -->
+      <ion-range
+        min="0"
+        max="100"
+        [value]="progreso"
+        (ionInput)="cambiarProgreso($event)">
+      </ion-range>
+
+      <!-- Controles del reproductor -->
+      <div class="controles">
+
+        <ion-button
+          *ngIf="!reproduciendo"
+          (click)="reproducir()">
+
+          <ion-icon
+            name="play-outline"
+            slot="start">
+          </ion-icon>
+
+          Reproducir
+
+        </ion-button>
+
+        <ion-button
+          *ngIf="reproduciendo"
+          (click)="pausar()">
+
+          <ion-icon
+            name="pause-outline"
+            slot="start">
+          </ion-icon>
+
+          Pausar
+
+        </ion-button>
+
+        <ion-button
+          fill="outline"
+          (click)="detener()">
+
+          <ion-icon
+            name="stop-outline"
+            slot="start">
+          </ion-icon>
+
+          Detener
+
+        </ion-button>
+
+      </div>
+
+    </ion-card-content>
+
+  </ion-card>
+
+  <!-- Registro de asistencia mediante código QR -->
+  <ion-card>
+
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="qr-code-outline"></ion-icon>
+        Registro de asistencia
+      </ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+
+      <p>
+        Escanea un código QR para registrar tu asistencia
+        a una actividad de la comunidad.
+      </p>
+
+      <ion-button
+        expand="block"
+        (click)="escanearQR()">
+
+        <ion-icon
+          name="qr-code-outline"
+          slot="start">
+        </ion-icon>
+
+        Escanear código QR
+
+      </ion-button>
+
+      <!-- Mensaje del escáner -->
+      <p
+        *ngIf="mensajeQR"
+        class="mensaje-qr">
+
+        {{ mensajeQR }}
+
+      </p>
+
+      <!-- Resultado del código QR -->
+      <div
+        *ngIf="codigoEscaneado"
+        class="resultado-qr">
+
+        <strong>Código detectado:</strong>
+
+        <p>
+          {{ codigoEscaneado }}
+        </p>
+
+      </div>
+
+    </ion-card-content>
+
+  </ion-card>
+
+</ion-content>

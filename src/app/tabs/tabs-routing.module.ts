@@ -33,6 +33,14 @@ const routes: Routes = [
             m => m.ReportesPageModule
           )
       },
+       
+      {
+        path: 'multimedia',
+        loadChildren: () =>
+          import('../multimedia/multimedia.module').then(
+            m => m.MultimediaPageModule
+          )
+      },
 
       {
         path: 'comunidad',

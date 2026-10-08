@@ -1,0 +1,154 @@
+ion-content {
+  --background: #f4f7f6;
+}
+
+ion-toolbar {
+  --background: #40bd46;
+  --color: #ffffff;
+}
+
+ion-title {
+  font-weight: 700;
+}
+
+ion-card {
+  margin: 0 0 18px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+ion-card-header {
+  padding: 18px 18px 10px;
+}
+
+ion-card-title {
+  color: #111111;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.35;
+}
+
+ion-card-title ion-icon {
+  color: #3880ff;
+  font-size: 21px;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+ion-card-content {
+  color: #555555;
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 10px 18px 18px;
+}
+
+ion-list {
+  padding: 0;
+}
+
+ion-item {
+  --padding-start: 18px;
+  --inner-padding-end: 12px;
+  --background: #ffffff;
+}
+
+ion-item ion-icon {
+  color: #3880ff;
+  font-size: 24px;
+}
+
+ion-item h2 {
+  color: #111111;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+
+ion-item p {
+  color: #777777;
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.podcast-seleccionado {
+  --background: #eef4ff;
+}
+
+ion-range {
+  --bar-background: #d9e3f5;
+  --bar-background-active: #3880ff;
+  --knob-background: #3880ff;
+  --knob-size: 20px;
+  margin: 10px 0 15px;
+}
+
+.controles {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+}
+
+.controles ion-button {
+  --background: #3880ff;
+  --background-hover: #3174e8;
+  --color: #ffffff;
+  --border-radius: 10px;
+  font-weight: 700;
+}
+
+.controles ion-button[fill="outline"] {
+  --background: transparent;
+  --color: #3880ff;
+  --border-color: #3880ff;
+}
+
+/* Mensaje mostrado después de escanear el QR */
+.mensaje-qr {
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  background: #eef4ff;
+  color: #3880ff;
+  font-weight: 600;
+  text-align: center;
+}
+
+/* Resultado obtenido del código QR */
+.resultado-qr {
+  margin-top: 16px;
+  padding: 15px;
+  border-radius: 12px;
+  background: #eef9ef;
+  border-left: 4px solid #40bd46;
+}
+
+.resultado-qr strong {
+  color: #222222;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.resultado-qr p {
+  color: #555555;
+  margin: 0;
+  word-break: break-word;
+}
+
+@media (max-width: 600px) {
+
+  ion-card-title {
+    font-size: 18px;
+  }
+
+  .controles {
+    flex-direction: column;
+  }
+
+  .controles ion-button {
+    width: 100%;
+  }
+
+}
