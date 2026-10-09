@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   android:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     steps:
       - uses: actions/checkout@v4
@@ -27,7 +27,9 @@ jobs:
           java-version: 21
 
       - name: Configurar Android SDK
-        uses: android-actions/setup-android@v3
+        - uses: android-actions/setup-android@v4
+  with:
+    packages: ''
         with:
           cmdline-tools-version: 19.0
 
