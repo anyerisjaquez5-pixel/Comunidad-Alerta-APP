@@ -3,7 +3,8 @@ name: Validar integración NFC
 
 on:
   pull_request:
-    branches: [master]
+    branches:
+      - master
   workflow_dispatch:
 
 permissions:
@@ -11,44 +12,72 @@ permissions:
 
 jobs:
   android:
+    name: Compilar aplicación Android
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
 
-      - uses: actions/setup-java@v4
+      - name: Configurar Java
+        uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
 
       - name: Configurar Android SDK
-        - uses: android-actions/setup-android@v4
-  with:
-    packages: ''
+        uses: android-actions/setup-android@v4
         with:
-          cmdline-tools-version: 19.0
+          packages: 'platform-tools'
 
-      - run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+      - name: Instalar plataformas y herramientas Android
+        run: |
+          sdkmanager --install "platforms;android-36" "build-tools;36.0.0" "platform-tools"
 
-      - run: npm ci
+      - name: Instalar dependencias
+        run: npm ci
 
-      - run: npm run build
+      - name: Compilar aplicación web
+        run: npm run build
 
-      - run: npm test -- --watch=false --include='src/app/services/*.spec.ts' --include='src/app/community/*.spec.ts' --include='src/app/home/*.spec.ts' --include='src/app/noticias/*.spec.ts' --include='src/app/reportes/*.spec.ts'
+      - name: Ejecutar pruebas
+        run: >
+          npm test -- --watch=false
+          --include='src/app/services/*.spec.ts'
+          --include='src/app/community/*.spec.ts'
+          --include='src/app/home/*.spec.ts'
+          --include='src/app/noticias/*.spec.ts'
+          --include='src/app/reportes/*.spec.ts'
 
-      - run: npx eslint src/app/community src/app/home/home.page.html src/app/home/home.module.ts src/app/home/home.page.spec.ts src/app/services/community.service.ts src/app/services/community-ble.service.ts src/app/services/nfc.service.ts src/app/services/nfc.service.spec.ts src/app/services/community.service.spec.ts
+      - name: Revisar código con ESLint
+        run: >
+          npx eslint
+          src/app/community
+          src/app/home/home.page.html
+          src/app/home/home.module.ts
+          src/app/home/home.page.spec.ts
+          src/app/services/community.service.ts
+          src/app/services/community-ble.service.ts
+          src/app/services/nfc.service.ts
+          src/app/services/nfc.service.spec.ts
+          src/app/services/community.service.spec.ts
 
-      - run: npx cap sync android
+      - name: Sincronizar Capacitor
+        run: npx cap sync android
 
-      - run: bash gradlew assembleDebug --no-daemon
+      - name: Generar APK de Android
+        run: bash gradlew assembleDebug --no-daemon
         working-directory: android
 
-      - uses: actions/upload-artifact@v4
+      - name: Guardar APK generado
+        uses: actions/upload-artifact@v4
         with:
           name: comunidad-alerta-debug
           path: android/app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
