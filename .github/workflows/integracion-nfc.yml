@@ -1,36 +1,48 @@
+
 name: Validar integración NFC
+
 on:
   pull_request:
     branches: [master]
   workflow_dispatch:
+
 permissions:
   contents: read
+
 jobs:
   android:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 24
           cache: npm
+
       - uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: 21
-      
-    - uses: android-actions/setup-android@v3
-      with:
-        api-level: 36
-        build-tools: 36.0.0
+
+      - uses: android-actions/setup-android@v3
+
+      - run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
 
       - run: npm ci
+
       - run: npm run build
+
       - run: npm test -- --watch=false --include='src/app/services/*.spec.ts' --include='src/app/community/*.spec.ts' --include='src/app/home/*.spec.ts' --include='src/app/noticias/*.spec.ts' --include='src/app/reportes/*.spec.ts'
+
       - run: npx eslint src/app/community src/app/home/home.page.html src/app/home/home.module.ts src/app/home/home.page.spec.ts src/app/services/community.service.ts src/app/services/community-ble.service.ts src/app/services/nfc.service.ts src/app/services/nfc.service.spec.ts src/app/services/community.service.spec.ts
+
       - run: npx cap sync android
+
       - run: bash gradlew assembleDebug --no-daemon
         working-directory: android
+
       - uses: actions/upload-artifact@v4
         with:
           name: comunidad-alerta-debug
