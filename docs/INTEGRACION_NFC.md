@@ -65,19 +65,62 @@ Por BLE, un teléfono publica una nota temporalmente y el segundo busca el servi
 
 ## NFC
 
-1. Se comprueba que la app está en Android y que NFC está activo
-2. Se instala el listener antes de iniciar el escaneo
-3. El usuario acerca una etiqueta NDEF compatible
-4. Para escribir, se comprueba que sea escribible y que el registro quepa en la capacidad informada
-5. La escritura reemplaza el contenido anterior, como indica la interfaz
-6. Para leer, se valida el registro UTF-8 y la estructura de la nota
-7. El usuario revisa la nota y elige guardar o descartar
-8. La sesión finaliza al completar, cancelar, fallar o agotar 30 segundos
+1. ```yaml
+name: Validar integración NFC
 
-No se bloquean las etiquetas permanentemente. Una etiqueta puede reutilizarse. El tamaño disponible depende de la etiqueta y del texto UTF-8; los acentos y emojis ocupan más bytes. Reducir el aviso si no cabe
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
 
-No se utiliza Android Beam ni se promete transferencia NFC directa entre teléfonos. La demostración NFC utiliza una etiqueta o llavero como medio
+permissions:
+  contents: read
 
+jobs:
+  android:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Configurar Java
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Configurar Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Instalar SDK de Android
+        run: sdkmanager "platforms;android-36" "build-tools;36.0.0"
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Compilar aplicación web
+        run: npm run build
+
+      - name: Sincronizar Capacitor
+        run: npx cap sync android
+
+      - name: Compilar APK
+        run: bash gradlew assembleDebug --no-daemon
+        working-directory: android
+
+      - name: Guardar APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: comunidad-alerta-debug
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+```
 ## Bluetooth Low Energy
 
 El complemento `@capacitor-community/bluetooth-le` existente actúa como central, no como periférico. Por eso se añade un complemento local Android que publica una nota como característica GATT de solo lectura
