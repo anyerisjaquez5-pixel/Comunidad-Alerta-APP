@@ -1,192 +1,159 @@
+
 <ion-header>
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>Comunidad Alerta</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content class="ion-padding">
 
+  <!-- Comunidad -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Notas comunitarias</ion-card-title>
     </ion-card-header>
+
     <ion-card-content>
-      <p>Crea notas para tu comunidad y compártelas mediante etiquetas NFC o Bluetooth</p>
-      <ion-button expand="block" routerLink="/tabs/comunidad">Abrir Comunidad</ion-button>
+      <p>
+        Crea notas para tu comunidad y compártelas mediante
+        etiquetas NFC o Bluetooth.
+      </p>
+
+      <ion-button expand="block" routerLink="/tabs/comunidad">
+        Abrir Comunidad
+      </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <!-- ESTADO DE CONEXIÓN A INTERNET -->
+  <!-- Estado de conexión -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>Estado de conexión</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-
-      <!-- Con conexión -->
       @if (conectado) {
-      <div>
-
         <ion-badge color="success">EN LÍNEA</ion-badge>
-
         <h2>Conectado a Internet</h2>
-
-        <p>
-          La aplicación está funcionando en línea.
-        </p>
-
-        <p>
-          <strong>Tipo de conexión:</strong> {{ tipoConexion }}
-        </p>
-
-      </div>
-      }
-
-      <!-- Sin conexión -->
-      @if (!conectado) {
-      <div>
-
+      } @else {
         <ion-badge color="danger">SIN CONEXIÓN</ion-badge>
-
-        <h2>Sin conexión</h2>
-
-        <p>
-          Estás en modo offline. Algunas funciones pueden no estar disponibles.
-        </p>
-
-        <p>
-          <strong>Tipo de conexión:</strong> {{ tipoConexion }}
-        </p>
-
-      </div>
+        <h2>Modo sin conexión</h2>
       }
 
-      <!-- Guardar dato -->
+      <p>
+        <strong>Tipo de conexión:</strong>
+        {{ tipoConexion }}
+      </p>
+
       <ion-button expand="block" (click)="guardarDato()">
         Guardar dato
       </ion-button>
-
     </ion-card-content>
   </ion-card>
 
-
-  <!-- BLUETOOTH BLE -->
+  <!-- Mapa y GPS -->
   <ion-card>
+    <ion-card-header>
+      <ion-card-title>
+        <ion-icon name="location-outline"></ion-icon>
+        Mapa y geolocalización
+      </ion-card-title>
+    </ion-card-header>
 
+    <ion-card-content>
+      <p>
+        Consulta el mapa y utiliza el GPS para encontrar tu
+        ubicación actual.
+      </p>
+
+      <div id="mapa"></div>
+
+      @if (latitud !== null && longitud !== null) {
+        <ion-item lines="none">
+          <ion-label>
+            <h3>Tu ubicación actual</h3>
+            <p>Latitud: {{ latitud }}</p>
+            <p>Longitud: {{ longitud }}</p>
+          </ion-label>
+        </ion-item>
+      }
+
+      @if (errorUbicacion) {
+        <ion-text color="danger">
+          <p>{{ errorUbicacion }}</p>
+        </ion-text>
+      }
+
+      <ion-button
+        expand="block"
+        (click)="obtenerUbicacion()"
+        [disabled]="obteniendoUbicacion">
+
+        @if (obteniendoUbicacion) {
+          <ion-spinner name="crescent"></ion-spinner>
+          Obteniendo ubicación...
+        } @else {
+          <ion-icon name="navigate-outline" slot="start"></ion-icon>
+          Mi ubicación
+        }
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Bluetooth -->
+  <ion-card>
     <ion-card-header>
       <ion-card-title>Bluetooth</ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
-
-      <!-- Estado de Bluetooth -->
       @if (bluetoothActivo) {
-      <div>
-        <ion-badge color="success">
-          BLUETOOTH ACTIVO
-        </ion-badge>
-
-        <p>
-          Bluetooth está disponible para buscar dispositivos cercanos.
-        </p>
-      </div>
+        <ion-badge color="success">BLUETOOTH ACTIVO</ion-badge>
+        <p>Bluetooth está disponible para buscar dispositivos.</p>
+      } @else {
+        <ion-badge color="warning">BLUETOOTH NO DISPONIBLE</ion-badge>
+        <p>Comprueba que Bluetooth esté activado en tu dispositivo.</p>
       }
 
-      @if (!bluetoothActivo) {
-      <div>
-        <ion-badge color="warning">
-          BLUETOOTH NO DISPONIBLE
-        </ion-badge>
-
-        <p>
-          Activa el Bluetooth del dispositivo para realizar una búsqueda.
-        </p>
-      </div>
-      }
-
-
-      <!-- Botón de búsqueda -->
       <ion-button
         expand="block"
         (click)="buscarBluetooth()"
         [disabled]="buscandoBluetooth">
 
-        @if (!buscandoBluetooth) {
-      <span>
-          Buscar dispositivos Bluetooth
-        </span>
-      }
-
         @if (buscandoBluetooth) {
-      <span>
           Buscando dispositivos...
-        </span>
-      }
-
+        } @else {
+          Buscar dispositivos Bluetooth
+        }
       </ion-button>
 
-
-      <!-- Indicador de búsqueda -->
       @if (buscandoBluetooth) {
-      <div class="ion-text-center ion-padding">
-
-        <ion-spinner name="crescent"></ion-spinner>
-
-        <p>
-          Buscando dispositivos Bluetooth cercanos...
-        </p>
-
-      </div>
+        <div class="ion-text-center ion-padding">
+          <ion-spinner name="crescent"></ion-spinner>
+          <p>Buscando dispositivos cercanos...</p>
+        </div>
       }
 
-
-      <!-- Dispositivos encontrados -->
       @if (dispositivosBluetooth.length > 0) {
-      <div>
-
         <h3>Dispositivos encontrados</h3>
 
         <ion-list>
-
-          @for (dispositivo of dispositivosBluetooth; track dispositivo.device.deviceId) {
-          <ion-item>
-
-            <ion-label>
-
-              <h2>
-                {{ dispositivo.device.name || 'Dispositivo sin nombre' }}
-              </h2>
-
-              <p>
-                ID: {{ dispositivo.device.deviceId }}
-              </p>
-
-            </ion-label>
-
-          </ion-item>
-      }
-
+          @for (
+            dispositivo of dispositivosBluetooth;
+            track dispositivo.device.deviceId
+          ) {
+            <ion-item>
+              <ion-label>
+                <h2>
+                  {{ dispositivo.device.name || 'Dispositivo sin nombre' }}
+                </h2>
+                <p>ID: {{ dispositivo.device.deviceId }}</p>
+              </ion-label>
+            </ion-item>
+          }
         </ion-list>
-
-      </div>
       }
-
-
-      <!-- Sin dispositivos -->
-      @if (!buscandoBluetooth && dispositivosBluetooth.length === 0) {
-      <div
-        class="ion-text-center ion-padding">
-
-        <p>
-          No se han encontrado dispositivos Bluetooth.
-        </p>
-
-      </div>
-      }
-
     </ion-card-content>
-
   </ion-card>
 
 </ion-content>

@@ -32,3 +32,17 @@ ion-button {
   --color: #ffffff;
   font-weight: 700;
 }
+
+#mapa {
+  width: 100%;
+  height: 350px;
+  min-height: 300px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #e8eef0;
+  z-index: 1;
+}
+
+ion-card {
+  margin-bottom: 18px;
+}
