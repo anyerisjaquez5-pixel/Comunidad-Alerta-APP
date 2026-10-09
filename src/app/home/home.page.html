@@ -1,4 +1,4 @@
-
+```html
 <ion-header>
   <ion-toolbar color="primary">
     <ion-title>Comunidad Alerta</ion-title>
@@ -38,6 +38,9 @@
       } @else {
         <ion-badge color="danger">SIN CONEXIÓN</ion-badge>
         <h2>Modo sin conexión</h2>
+        <p>
+          Sin conexión a Internet. Los datos se pueden guardar localmente.
+        </p>
       }
 
       <p>
@@ -62,11 +65,13 @@
 
     <ion-card-content>
       <p>
-        Consulta el mapa y utiliza el GPS para encontrar tu
-        ubicación actual.
+        Consulta el mapa y utiliza el GPS para encontrar tu ubicación actual.
       </p>
 
-      <div id="mapa"></div>
+      <div
+        id="mapa"
+        style="height: 350px; width: 100%; border-radius: 12px; overflow: hidden;">
+      </div>
 
       @if (latitud !== null && longitud !== null) {
         <ion-item lines="none">
@@ -121,8 +126,10 @@
         [disabled]="buscandoBluetooth">
 
         @if (buscandoBluetooth) {
+          <ion-spinner name="crescent"></ion-spinner>
           Buscando dispositivos...
         } @else {
+          <ion-icon name="bluetooth-outline" slot="start"></ion-icon>
           Buscar dispositivos Bluetooth
         }
       </ion-button>
@@ -152,8 +159,11 @@
             </ion-item>
           }
         </ion-list>
+      } @else if (!buscandoBluetooth) {
+        <p>No se han encontrado dispositivos Bluetooth</p>
       }
     </ion-card-content>
   </ion-card>
 
 </ion-content>
+```
