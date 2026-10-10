@@ -6,10 +6,13 @@
 
 <ion-content class="ion-padding">
 
-  <!-- Comunidad -->
+  <!-- NOTAS COMUNITARIAS -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Notas comunitarias</ion-card-title>
+      <ion-card-title>
+        <ion-icon name="people-outline"></ion-icon>
+        Notas comunitarias
+      </ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
@@ -19,26 +22,31 @@
       </p>
 
       <ion-button expand="block" routerLink="/tabs/comunidad">
+        <ion-icon name="people-outline" slot="start"></ion-icon>
         Abrir Comunidad
       </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <!-- Estado de conexión -->
+  <!-- ESTADO DE CONEXIÓN -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Estado de conexión</ion-card-title>
+      <ion-card-title>
+        <ion-icon name="wifi-outline"></ion-icon>
+        Estado de conexión
+      </ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       @if (conectado) {
         <ion-badge color="success">EN LÍNEA</ion-badge>
         <h2>Conectado a Internet</h2>
+        <p>La aplicación está funcionando en línea.</p>
       } @else {
         <ion-badge color="danger">SIN CONEXIÓN</ion-badge>
         <h2>Modo sin conexión</h2>
         <p>
-          Sin conexión a Internet. Los datos se pueden guardar localmente.
+          No hay conexión a Internet. Puedes guardar datos localmente.
         </p>
       }
 
@@ -48,38 +56,46 @@
       </p>
 
       <ion-button expand="block" (click)="guardarDato()">
+        <ion-icon name="save-outline" slot="start"></ion-icon>
         Guardar dato
       </ion-button>
     </ion-card-content>
   </ion-card>
 
-  <!-- Mapa y GPS -->
+  <!-- MAPA Y GEOLOCALIZACIÓN -->
   <ion-card>
     <ion-card-header>
       <ion-card-title>
         <ion-icon name="location-outline"></ion-icon>
         Mapa y geolocalización
       </ion-card-title>
+      <ion-card-subtitle>
+        Consulta el mapa y localiza tu posición actual.
+      </ion-card-subtitle>
     </ion-card-header>
 
     <ion-card-content>
-      <p>
-        Consulta el mapa y utiliza el GPS para encontrar tu ubicación actual.
-      </p>
+      <div id="mapa" class="mapa-contenedor"></div>
 
-      <div
-        id="mapa"
-        style="height: 350px; width: 100%; border-radius: 12px; overflow: hidden;">
-      </div>
+      <ion-button
+        expand="block"
+        (click)="obtenerUbicacion()"
+        [disabled]="cargandoUbicacion">
 
-      @if (latitud !== null && longitud !== null) {
-        <ion-item lines="none">
-          <ion-label>
-            <h3>Tu ubicación actual</h3>
-            <p>Latitud: {{ latitud }}</p>
-            <p>Longitud: {{ longitud }}</p>
-          </ion-label>
-        </ion-item>
+        <ion-icon name="locate-outline" slot="start"></ion-icon>
+
+        @if (cargandoUbicacion) {
+          <span>Obteniendo ubicación...</span>
+        } @else {
+          <span>Mi ubicación actual</span>
+        }
+      </ion-button>
+
+      @if (cargandoUbicacion) {
+        <div class="ion-text-center ion-padding">
+          <ion-spinner name="crescent"></ion-spinner>
+          <p>Solicitando ubicación GPS...</p>
+        </div>
       }
 
       @if (errorUbicacion) {
@@ -88,32 +104,40 @@
         </ion-text>
       }
 
-      <ion-button
-        expand="block"
-        (click)="obtenerUbicacion()"
-        [disabled]="obteniendoUbicacion">
+      @if (latitud !== null && longitud !== null) {
+        <ion-card color="light">
+          <ion-card-content>
+            <h2>Tu posición actual</h2>
+            <p>
+              <strong>Latitud:</strong> {{ latitud }}
+            </p>
+            <p>
+              <strong>Longitud:</strong> {{ longitud }}
+            </p>
+          </ion-card-content>
+        </ion-card>
+      }
 
-        @if (obteniendoUbicacion) {
-          <ion-spinner name="crescent"></ion-spinner>
-          Obteniendo ubicación...
-        } @else {
-          <ion-icon name="navigate-outline" slot="start"></ion-icon>
-          Mi ubicación
-        }
-      </ion-button>
+      <p class="texto-informativo">
+        El mapa utiliza OpenStreetMap. Activa la ubicación del dispositivo
+        y concede los permisos para obtener tus coordenadas.
+      </p>
     </ion-card-content>
   </ion-card>
 
-  <!-- Bluetooth -->
+  <!-- BLUETOOTH BLE -->
   <ion-card>
     <ion-card-header>
-      <ion-card-title>Bluetooth</ion-card-title>
+      <ion-card-title>
+        <ion-icon name="bluetooth-outline"></ion-icon>
+        Bluetooth
+      </ion-card-title>
     </ion-card-header>
 
     <ion-card-content>
       @if (bluetoothActivo) {
         <ion-badge color="success">BLUETOOTH ACTIVO</ion-badge>
-        <p>Bluetooth está disponible para buscar dispositivos.</p>
+        <p>Bluetooth está disponible para buscar dispositivos cercanos.</p>
       } @else {
         <ion-badge color="warning">BLUETOOTH NO DISPONIBLE</ion-badge>
         <p>Comprueba que Bluetooth esté activado en tu dispositivo.</p>
@@ -124,19 +148,26 @@
         (click)="buscarBluetooth()"
         [disabled]="buscandoBluetooth">
 
+        <ion-icon name="search-outline" slot="start"></ion-icon>
+
         @if (buscandoBluetooth) {
-          <ion-spinner name="crescent"></ion-spinner>
-          Buscando dispositivos...
+          <span>Buscando dispositivos...</span>
         } @else {
-          <ion-icon name="bluetooth-outline" slot="start"></ion-icon>
-          Buscar dispositivos Bluetooth
+          <span>Buscar dispositivos Bluetooth</span>
         }
       </ion-button>
 
       @if (buscandoBluetooth) {
         <div class="ion-text-center ion-padding">
           <ion-spinner name="crescent"></ion-spinner>
-          <p>Buscando dispositivos cercanos...</p>
+          <p>Buscando dispositivos Bluetooth cercanos...</p>
+
+          <ion-button
+            fill="outline"
+            color="medium"
+            (click)="detenerBusquedaBluetooth()">
+            Detener búsqueda
+          </ion-button>
         </div>
       }
 
@@ -159,7 +190,7 @@
           }
         </ion-list>
       } @else if (!buscandoBluetooth) {
-        <p>No se han encontrado dispositivos Bluetooth</p>
+        <p>No se han encontrado dispositivos Bluetooth.</p>
       }
     </ion-card-content>
   </ion-card>

@@ -1,6 +1,5 @@
 #container {
   text-align: center;
-
   position: absolute;
   left: 0;
   right: 0;
@@ -16,9 +15,7 @@
 #container p {
   font-size: 16px;
   line-height: 22px;
-
   color: #8c8c8c;
-  
   margin: 0;
 }
 
@@ -33,7 +30,10 @@ ion-button {
   font-weight: 700;
 }
 
-#mapa {
+/* Mapa interactivo de Leaflet */
+#mapa,
+.mapa-contenedor {
+  display: block;
   width: 100%;
   height: 350px;
   min-height: 300px;
@@ -43,6 +43,19 @@ ion-button {
   z-index: 1;
 }
 
+/* Tarjetas de la aplicación */
 ion-card {
   margin-bottom: 18px;
+}
+
+/* Texto informativo */
+.texto-informativo {
+  font-size: 0.85rem;
+  color: var(--ion-color-medium);
+  margin-top: 12px;
+}
+
+ion-card-title ion-icon {
+  vertical-align: middle;
+  margin-right: 6px;
 }

@@ -1,13 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, provideRouter } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { provideHttpClient } from '@angular/common/http';
-import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { describe, beforeEach, it, expect } from 'vitest';
-import { IonicModule } from '@ionic/angular/lazy';
-import { of } from 'rxjs';
-
 import { DetalleNoticiaPage } from './detalle-noticia.page';
-import { DetalleNoticiaPageModule } from './detalle-noticia.module';
 
 describe('DetalleNoticiaPage', () => {
   let component: DetalleNoticiaPage;
@@ -15,28 +10,18 @@ describe('DetalleNoticiaPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        IonicModule.forRoot(),
-        DetalleNoticiaPageModule
-      ],
+      imports: [DetalleNoticiaPage],
       providers: [
         provideRouter([]),
         provideHttpClient(),
-        provideHttpClientTesting(),
-        {
-          provide: ActivatedRoute,
-          useValue: {
-            queryParams: of({})
-          }
-        }
-      ]
+      ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(DetalleNoticiaPage);
     component = fixture.componentInstance;
   });
 
-  it('debería crear el componente', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

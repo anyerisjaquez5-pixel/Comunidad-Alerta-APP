@@ -1,11 +1,10 @@
 ﻿import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { Capacitor } from '@capacitor/core';
 import { App } from '@capacitor/app';
 import { CapacitorNfc, NdefRecord, NfcEvent, NfcStateChangeEvent } from '@capgo/capacitor-nfc';
 import { NfcService, leerRegistro, registroNota } from './nfc.service';
 import { Nota } from './community.service';
 
-vi.mock('@capacitor/core', () => ({ Capacitor: { getPlatform: vi.fn(() => 'android') } }));
+vi.mock('@capacitor/core', () => ({ Capacitor: { getPlatform: () => 'android' } }));
 vi.mock('@capacitor/app', () => ({ App: { addListener: vi.fn(), getState: vi.fn() } }));
 vi.mock('@capgo/capacitor-nfc', () => ({ CapacitorNfc: {
   getStatus: vi.fn(), addListener: vi.fn(), startScanning: vi.fn(), stopScanning: vi.fn(), write: vi.fn()
@@ -31,7 +30,6 @@ describe('Sesiones NFC con API nativa simulada', () => {
 
   beforeEach(() => {
     vi.resetAllMocks();
-    vi.mocked(Capacitor.getPlatform).mockReturnValue('android');
     vi.useFakeTimers();
     servicio = new NfcService();
     remove = vi.fn().mockResolvedValue(undefined);

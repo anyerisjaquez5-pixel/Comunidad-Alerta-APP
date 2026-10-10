@@ -1,9 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { describe, beforeEach, it, expect } from 'vitest';
 import { provideRouter } from '@angular/router';
-import { IonicModule } from '@ionic/angular/lazy';
+import { describe, beforeEach, it, expect } from 'vitest';
 import { TabsPage } from './tabs.page';
-import { TabsPageModule } from './tabs.module';
 
 describe('TabsPage', () => {
   let component: TabsPage;
@@ -11,16 +9,15 @@ describe('TabsPage', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [IonicModule.forRoot(), TabsPageModule],
-      providers: [provideRouter([])]
+      imports: [TabsPage],
+      providers: [provideRouter([])],
     }).compileComponents();
 
     fixture = TestBed.createComponent(TabsPage);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
-  it('debería crearse correctamente', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });
