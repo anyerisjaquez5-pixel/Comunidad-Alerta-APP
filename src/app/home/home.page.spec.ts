@@ -54,7 +54,7 @@ describe('HomePage', () => {
     fixture.detectChanges();
     await fixture.whenStable();
     const element: HTMLElement = fixture.nativeElement;
-    expect(element.textContent).toContain('Sin conexión');
+    expect(element.textContent).toContain('Modo sin conexión');
     expect(element.textContent).toContain('No se han encontrado dispositivos Bluetooth');
   });
 });
