@@ -1,67 +1,359 @@
-<ion-header><ion-toolbar><ion-title>Comunidad</ion-title></ion-toolbar></ion-header>
-<ion-content class="ion-padding">
-  <p role="status" aria-live="polite">{{ mensaje }}</p>
-  <ion-card>
-    <ion-card-header><ion-card-title>Mi perfil</ion-card-title></ion-card-header>
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Comunidad</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="community-content">
+
+  <p class="community-description">
+    Comparte información útil con tu comunidad.
+  </p>
+
+  @if (mensaje) {
+    <div class="status-message" role="status" aria-live="polite">
+      {{ mensaje }}
+    </div>
+  }
+
+  <!-- PERFIL -->
+  <ion-card class="community-card profile-card">
+    <ion-card-header>
+      <div class="section-title">
+        <ion-icon name="person-outline"></ion-icon>
+        <ion-card-title>Mi perfil</ion-card-title>
+      </div>
+    </ion-card-header>
+
     <ion-card-content>
-      <p>Se guarda en este dispositivo, no es una cuenta verificada</p>
-      <ion-input label="Nombre" labelPlacement="stacked" [(ngModel)]="perfil.nombre" maxlength="40"></ion-input>
-      <ion-input label="Sector" labelPlacement="stacked" [(ngModel)]="perfil.sector" maxlength="60"></ion-input>
-      <ion-textarea label="Descripción" labelPlacement="stacked" [(ngModel)]="perfil.descripcion" maxlength="160"></ion-textarea>
-      <ion-button (click)="guardarPerfil()">Guardar perfil</ion-button>
+
+      <p class="helper-text">
+        Tu perfil se guarda únicamente en este dispositivo.
+      </p>
+
+      <ion-input
+        label="Nombre"
+        labelPlacement="stacked"
+        fill="outline"
+        [(ngModel)]="perfil.nombre"
+        maxlength="40">
+      </ion-input>
+
+      <ion-input
+        label="Sector"
+        labelPlacement="stacked"
+        fill="outline"
+        [(ngModel)]="perfil.sector"
+        maxlength="60">
+      </ion-input>
+
+      <ion-textarea
+        label="Descripción"
+        labelPlacement="stacked"
+        fill="outline"
+        [(ngModel)]="perfil.descripcion"
+        maxlength="160">
+      </ion-textarea>
+
+      <ion-button
+        expand="block"
+        class="primary-button"
+        (click)="guardarPerfil()">
+        <ion-icon slot="start" name="save-outline"></ion-icon>
+        Guardar perfil
+      </ion-button>
+
     </ion-card-content>
   </ion-card>
-  <ion-card>
-    <ion-card-header><ion-card-title>Nueva nota comunitaria</ion-card-title></ion-card-header>
+
+  <!-- NUEVA NOTA -->
+  <ion-card class="community-card note-card">
+
+    <ion-card-header>
+      <div class="section-title">
+        <ion-icon name="create-outline"></ion-icon>
+        <ion-card-title>Nueva nota comunitaria</ion-card-title>
+      </div>
+    </ion-card-header>
+
     <ion-card-content>
-      <ion-input label="Título" labelPlacement="stacked" [(ngModel)]="titulo" maxlength="60"></ion-input>
-      <ion-textarea label="Contenido" labelPlacement="stacked" [(ngModel)]="contenido" maxlength="240"></ion-textarea>
-      <p>Usa avisos breves y evita datos privados</p>
-      <ion-button (click)="crear()">Guardar nota</ion-button>
+
+      <p class="helper-text">
+        Crea avisos breves para compartir información importante.
+      </p>
+
+      <ion-input
+        label="Título"
+        labelPlacement="stacked"
+        fill="outline"
+        [(ngModel)]="titulo"
+        maxlength="60">
+      </ion-input>
+
+      <ion-textarea
+        label="Contenido"
+        labelPlacement="stacked"
+        fill="outline"
+        [(ngModel)]="contenido"
+        maxlength="240">
+      </ion-textarea>
+
+      <div class="privacy-note">
+        <ion-icon name="shield-checkmark-outline"></ion-icon>
+        <span>Evita incluir datos personales o información privada.</span>
+      </div>
+
+      <ion-button
+        expand="block"
+        class="primary-button"
+        (click)="crear()">
+        <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+        Guardar nota
+      </ion-button>
+
     </ion-card-content>
   </ion-card>
-  <ion-card>
-    <ion-card-header><ion-card-title>Recibir notas</ion-card-title></ion-card-header>
+
+  <!-- RECIBIR NOTAS -->
+  <ion-card class="community-card connection-card">
+
+    <ion-card-header>
+      <div class="section-title">
+        <ion-icon name="radio-outline"></ion-icon>
+        <ion-card-title>Recibir notas</ion-card-title>
+      </div>
+    </ion-card-header>
+
     <ion-card-content>
-      <p>{{ estadoNfc }}</p>
-      <ion-button [disabled]="ocupado || publicando" (click)="usarNfc()">Leer etiqueta NFC</ion-button>
-      <ion-button [disabled]="ocupado || publicando" (click)="buscar()">Buscar notas BLE</ion-button>
+
+      <div class="connection-status">
+        <span class="status-dot"></span>
+        <span>{{ estadoNfc }}</span>
+      </div>
+
+      <div class="communication-buttons">
+
+        <ion-button
+          expand="block"
+          class="nfc-button"
+          [disabled]="ocupado || publicando"
+          (click)="usarNfc()">
+
+          <ion-icon slot="start" name="radio-outline"></ion-icon>
+          Leer etiqueta NFC
+
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          class="bluetooth-button"
+          [disabled]="ocupado || publicando"
+          (click)="buscar()">
+
+          <ion-icon slot="start" name="bluetooth-outline"></ion-icon>
+          Buscar notas BLE
+
+        </ion-button>
+
+      </div>
+
       @if (ocupado || publicando) {
-        <ion-button fill="outline" (click)="detener()">Detener</ion-button>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          class="stop-button"
+          (click)="detener()">
+
+          Detener búsqueda
+
+        </ion-button>
+
       }
-      <ion-list>
-        @for (item of dispositivos; track item) {
-          <ion-item>
-            <ion-label>{{ item.device.name || 'Comunidad Alerta' }}<p>{{ item.device.deviceId }}</p></ion-label>
-            <ion-button [disabled]="ocupado || publicando" (click)="recibir(item.device.deviceId)">Leer nota</ion-button>
-          </ion-item>
-        }
-      </ion-list>
+
+      @if (dispositivos.length) {
+
+        <div class="devices-title">
+          Dispositivos encontrados
+        </div>
+
+        <ion-list class="device-list">
+
+          @for (item of dispositivos; track item) {
+
+            <ion-item>
+
+              <ion-icon
+                slot="start"
+                name="bluetooth-outline">
+              </ion-icon>
+
+              <ion-label>
+                <h3>{{ item.device.name || 'Comunidad Alerta' }}</h3>
+                <p>{{ item.device.deviceId }}</p>
+              </ion-label>
+
+              <ion-button
+                slot="end"
+                size="small"
+                [disabled]="ocupado || publicando"
+                (click)="recibir(item.device.deviceId)">
+
+                Leer
+
+              </ion-button>
+
+            </ion-item>
+
+          }
+
+        </ion-list>
+
+      }
+
     </ion-card-content>
   </ion-card>
+
+  <!-- NOTA RECIBIDA -->
   @if (recibida) {
-    <ion-card>
-      <ion-card-header><ion-card-title>{{ recibida.titulo }}</ion-card-title></ion-card-header>
+
+    <ion-card class="community-card received-card">
+
+      <ion-card-header>
+
+        <div class="section-title">
+          <ion-icon name="mail-open-outline"></ion-icon>
+          <ion-card-title>Nota recibida</ion-card-title>
+        </div>
+
+      </ion-card-header>
+
       <ion-card-content>
-        <p>{{ recibida.contenido }}</p><p>Autor declarado: {{ recibida.autor }}</p>
-        <p>{{ recibida.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
-        <ion-button (click)="guardarRecibida()">Guardar recibida</ion-button>
-        <ion-button fill="outline" (click)="recibida = undefined">Descartar</ion-button>
+
+        <h2>{{ recibida.titulo }}</h2>
+
+        <p class="received-content">
+          {{ recibida.contenido }}
+        </p>
+
+        <div class="received-info">
+          <p>
+            <strong>Autor:</strong> {{ recibida.autor }}
+          </p>
+
+          <p>
+            <strong>Fecha:</strong>
+            {{ recibida.fecha | date:'dd/MM/yyyy HH:mm' }}
+          </p>
+        </div>
+
+        <ion-button
+          expand="block"
+          class="primary-button"
+          (click)="guardarRecibida()">
+
+          <ion-icon slot="start" name="save-outline"></ion-icon>
+          Guardar recibida
+
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          (click)="recibida = undefined">
+
+          Descartar
+
+        </ion-button>
+
       </ion-card-content>
     </ion-card>
+
   }
-  <h2>Mis notas</h2>@if (!notas.length) {
-  <p>Todavía no hay notas guardadas</p>
-}
-@for (nota of notas; track nota) {
-  <ion-card>
-    <ion-card-header><ion-card-title>{{ nota.titulo }}</ion-card-title></ion-card-header>
-    <ion-card-content>
-      <p>{{ nota.contenido }}</p><p>{{ nota.autor }} · {{ nota.fecha | date:'dd/MM/yyyy HH:mm' }}</p>
-      <p>Escribir NFC reemplaza el contenido anterior de la etiqueta</p>
-      <ion-button [disabled]="ocupado || publicando" (click)="usarNfc(nota)">Escribir NFC</ion-button>
-      <ion-button [disabled]="ocupado || publicando" (click)="publicar(nota)">Compartir BLE</ion-button>
-    </ion-card-content>
-  </ion-card>
-}
+
+  <!-- MIS NOTAS -->
+  <div class="my-notes-header">
+
+    <div>
+      <h2>Mis notas</h2>
+      <p>Notas guardadas en este dispositivo</p>
+    </div>
+
+    <ion-icon name="document-text-outline"></ion-icon>
+
+  </div>
+
+  @if (!notas.length) {
+
+    <div class="empty-notes">
+
+      <ion-icon name="document-outline"></ion-icon>
+
+      <h3>No hay notas guardadas</h3>
+
+      <p>
+        Crea una nota comunitaria para verla aparecer aquí.
+      </p>
+
+    </div>
+
+  }
+
+  @for (nota of notas; track nota) {
+
+    <ion-card class="community-card saved-note-card">
+
+      <ion-card-header>
+
+        <ion-card-title>
+          {{ nota.titulo }}
+        </ion-card-title>
+
+      </ion-card-header>
+
+      <ion-card-content>
+
+        <p class="saved-content">
+          {{ nota.contenido }}
+        </p>
+
+        <p class="note-author">
+          {{ nota.autor }} ·
+          {{ nota.fecha | date:'dd/MM/yyyy HH:mm' }}
+        </p>
+
+        <div class="nfc-warning">
+          <ion-icon name="information-circle-outline"></ion-icon>
+          <span>
+            Escribir NFC reemplaza el contenido anterior de la etiqueta.
+          </span>
+        </div>
+
+        <ion-button
+          expand="block"
+          class="nfc-button"
+          [disabled]="ocupado || publicando"
+          (click)="usarNfc(nota)">
+
+          <ion-icon slot="start" name="radio-outline"></ion-icon>
+          Escribir NFC
+
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          class="bluetooth-button"
+          [disabled]="ocupado || publicando"
+          (click)="publicar(nota)">
+
+          <ion-icon slot="start" name="bluetooth-outline"></ion-icon>
+          Compartir BLE
+
+        </ion-button>
+
+      </ion-card-content>
+    </ion-card>
+
+  }
+
 </ion-content>

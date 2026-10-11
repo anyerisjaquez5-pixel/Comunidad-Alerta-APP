@@ -1,4 +1,12 @@
 import { Component } from '@angular/core';
+import { addIcons } from 'ionicons';
+import {
+  homeOutline,
+  newspaperOutline,
+  alertCircleOutline,
+  headsetOutline,
+  peopleOutline
+} from 'ionicons/icons';
 
 @Component({
   selector: 'app-root',
@@ -7,5 +15,13 @@ import { Component } from '@angular/core';
   standalone: false,
 })
 export class AppComponent {
-  constructor() {}
+  constructor() {
+    addIcons({
+      homeOutline,
+      newspaperOutline,
+      alertCircleOutline,
+      headsetOutline,
+      peopleOutline
+    });
+  }
 }
