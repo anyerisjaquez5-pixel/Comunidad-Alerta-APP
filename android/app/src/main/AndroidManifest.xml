@@ -18,12 +18,10 @@
     <uses-permission
         android:name="android.permission.BLUETOOTH_ADMIN"
         android:maxSdkVersion="30" />
-    <!-- Ubicación para versiones antiguas de Android -->
-    <uses-permission
-        android:name="android.permission.ACCESS_COARSE_LOCATION"
-    <uses-permission />
-        android:name="android.permission.ACCESS_FINE_LOCATION"
-    <!-- Bluetooth en Android 12 y versiones posteriores --> />
+    <!-- Permisos de ubicación GPS -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <!-- Bluetooth en Android 12 y versiones posteriores -->
     <uses-permission
         android:name="android.permission.BLUETOOTH_SCAN"
         android:usesPermissionFlags="neverForLocation"
