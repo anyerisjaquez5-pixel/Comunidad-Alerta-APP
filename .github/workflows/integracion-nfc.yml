@@ -24,11 +24,8 @@ steps:
       java-version: 21
   - uses: android-actions/setup-android@v3
     with:
-      accept-android-sdk-licenses: false
-  - name: Aceptar licencias de Android
-    run: yes | sdkmanager --licenses
-  - name: Instalar paquetes de Android
-    run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      packages: 'platforms;android-36,build-tools;36.0.0'
+      accept-android-sdk-licenses: true
   - run: npm ci
   - run: npm run build
   - run: npm test -- --watch=false --include='src/app/services/*.spec.ts' --include='src/app/community/*.spec.ts' --include='src/app/home/*.spec.ts' --include='src/app/noticias/*.spec.ts' --include='src/app/reportes/*.spec.ts'
