@@ -1,0 +1,309 @@
+ion-content {
+  --background: #f4f7f6;
+}
+ion-toolbar {
+  --background: #40bd46;
+  --color: #ffffff;
+}
+ion-title {
+  font-weight: 700;
+}
+/* MISMO AZUL QUE INICIO */
+ion-button {
+  --background: #3880ff;
+  --background-hover: #3174e8;
+  --color: #ffffff;
+  font-weight: 700;
+}
+/* Contenido */
+.community-content {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 18px 16px 30px;
+}
+/* Encabezado */
+.community-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.community-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: #3880ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.community-icon ion-icon {
+  color: #ffffff;
+  font-size: 28px;
+}
+.community-header h1 {
+  margin: 0;
+  color: #3880ff;
+  font-size: 23px;
+  font-weight: 700;
+}
+.community-header p {
+  margin: 4px 0 0;
+  color: #777777;
+  font-size: 14px;
+}
+/* Mensaje */
+.status-message {
+  background: #e8f5e9;
+  border-left: 4px solid #40bd46;
+  color: #2e7d32;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+/* Tarjetas */
+.community-card {
+  margin: 0 0 18px;
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+.community-card ion-card-header {
+  padding: 18px 18px 10px;
+}
+.section-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.section-title ion-icon {
+  color: #3880ff;
+  font-size: 22px;
+}
+.section-title ion-card-title {
+  color: #111111;
+  font-size: 19px;
+  font-weight: 700;
+}
+.community-card ion-card-content {
+  color: #555555;
+  font-size: 15px;
+  line-height: 1.6;
+  padding: 10px 18px 18px;
+}
+/* Texto de ayuda */
+.helper-text {
+  color: #777777;
+  font-size: 13px;
+  margin: 0 0 14px;
+}
+/* Inputs */
+ion-input,
+ion-textarea {
+  margin-bottom: 14px;
+}
+/* Aviso de privacidad */
+.privacy-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #f4f7f6;
+  color: #555555;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 8px 0 12px;
+  font-size: 13px;
+}
+.privacy-note ion-icon {
+  color: #3880ff;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+/* Estado NFC */
+.connection-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f4f7f6;
+  padding: 10px 12px;
+  border-radius: 10px;
+  margin-bottom: 14px;
+  color: #555555;
+  font-size: 14px;
+}
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #40bd46;
+  display: inline-block;
+}
+/* Botones de comunicación */
+.communication-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+/* Estos heredan el mismo azul de ion-button */
+.nfc-button,
+.bluetooth-button {
+  --background: #3880ff;
+  --background-hover: #3174e8;
+  --color: #ffffff;
+}
+/* Botón detener */
+.stop-button {
+  margin-top: 10px;
+  --background: transparent;
+  --color: #3880ff;
+  --border-color: #3880ff;
+}
+/* Dispositivos */
+.devices-title {
+  margin-top: 18px;
+  margin-bottom: 8px;
+  color: #111111;
+  font-weight: 700;
+}
+.device-list {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fafafa;
+}
+.device-list ion-item {
+  --padding-start: 12px;
+  --inner-padding-end: 8px;
+}
+.device-list ion-icon {
+  color: #3880ff;
+  font-size: 22px;
+}
+.device-list h3 {
+  margin: 0;
+  color: #111111;
+  font-weight: 600;
+}
+.device-list p {
+  margin-top: 3px;
+  color: #777777;
+  font-size: 12px;
+}
+/* Nota recibida */
+.received-card {
+  border-left: 4px solid #3880ff;
+}
+.received-card h2 {
+  margin-top: 0;
+  color: #111111;
+  font-size: 20px;
+}
+.received-content {
+  color: #555555;
+  line-height: 1.6;
+}
+.received-info {
+  background: #f4f7f6;
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 12px 0;
+}
+.received-info p {
+  margin: 4px 0;
+  font-size: 13px;
+}
+/* Mis notas */
+.my-notes-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 26px 2px 14px;
+}
+.my-notes-header h2 {
+  margin: 0;
+  color: #111111;
+  font-size: 20px;
+  font-weight: 700;
+}
+.my-notes-header p {
+  margin: 4px 0 0;
+  color: #777777;
+  font-size: 13px;
+}
+.my-notes-header ion-icon {
+  color: #3880ff;
+  font-size: 28px;
+}
+/* Sin notas */
+.empty-notes {
+  text-align: center;
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 30px 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+}
+.empty-notes ion-icon {
+  color: #3880ff;
+  font-size: 42px;
+}
+.empty-notes h3 {
+  margin: 10px 0 6px;
+  color: #111111;
+}
+.empty-notes p {
+  margin: 0;
+  color: #777777;
+  font-size: 14px;
+}
+/* Notas guardadas */
+.saved-note-card {
+  border-left: 4px solid #3880ff;
+}
+.saved-note-card ion-card-title {
+  color: #111111;
+  font-weight: 700;
+}
+.saved-content {
+  color: #555555;
+  line-height: 1.6;
+}
+.note-author {
+  color: #777777;
+  font-size: 12px;
+  margin-top: 12px;
+}
+/* Aviso NFC */
+.nfc-warning {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: #f4f7f6;
+  color: #555555;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 12px 0;
+  font-size: 12px;
+}
+.nfc-warning ion-icon {
+  color: #3880ff;
+  font-size: 19px;
+  flex-shrink: 0;
+}
+/* Móviles */
+@media (max-width: 600px) {
+  .community-content {
+    padding: 16px 12px 25px;
+  }
+  .community-header h1 {
+    font-size: 21px;
+  }
+  .community-header p {
+    font-size: 13px;
+  }
+  .community-card ion-card-title {
+    font-size: 18px;
+  }
+}
