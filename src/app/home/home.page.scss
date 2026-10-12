@@ -32,3 +32,56 @@ ion-button {
   --color: #ffffff;
   font-weight: 700;
 }
+#mapa-comunidad-alerta {
+  display: block;
+  width: 100%;
+  height: clamp(280px, 42vh, 380px);
+  min-height: 280px;
+  border-radius: 12px;
+  background: #e8eef2;
+  overflow: hidden;
+  z-index: 0;
+}
+
+
+/* AJUSTE MOVIL COMUNIDAD ALERTA */
+ion-content {
+  --padding-top: 12px;
+  --padding-bottom: 24px;
+}
+
+ion-card {
+  margin-top: 12px;
+  margin-bottom: 16px;
+}
+
+ion-card-header {
+  padding-top: 16px;
+  padding-bottom: 12px;
+}
+
+ion-card-title,
+ion-card-subtitle {
+  white-space: normal;
+  overflow-wrap: anywhere;
+}
+
+#mapa-comunidad-alerta {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* AJUSTE FINAL MAPA MOVIL */
+ion-content {
+  --padding-bottom: 32px;
+}
+
+ion-card-content {
+  padding-bottom: 20px;
+}
+
+#mapa-comunidad-alerta {
+  max-width: 100%;
+  box-sizing: border-box;
+}

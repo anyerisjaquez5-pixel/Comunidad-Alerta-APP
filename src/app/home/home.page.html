@@ -189,4 +189,26 @@
 
   </ion-card>
 
+
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Mapa de la comunidad</ion-card-title>
+      <ion-card-subtitle>Ubicación y geolocalización</ion-card-subtitle>
+    </ion-card-header>
+    <ion-card-content>
+      <div id="mapa-comunidad-alerta"
+           role="application"
+           aria-label="Mapa interactivo"></div>
+      <p aria-live="polite">
+        {{ mensajeGPS || 'Pulsa el botón para encontrar tu ubicación.' }}
+      </p>
+      <ion-button expand="block"
+                  [disabled]="cargandoGPS"
+                  (click)="centrarUbicacionActual()">
+        <ion-icon name="locate-outline" slot="start"></ion-icon>
+        {{ cargandoGPS ? 'Buscando...' : 'Mi ubicación actual' }}
+      </ion-button>
+    </ion-card-content>
+  </ion-card>
+
 </ion-content>
