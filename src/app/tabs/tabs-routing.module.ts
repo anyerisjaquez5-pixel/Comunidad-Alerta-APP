@@ -13,46 +13,46 @@ const routes: Routes = [
       {
         path: 'home',
         loadChildren: () =>
-          import('../home/home.module').then(
-            m => m.HomePageModule
-          )
+          import('../home/home.module').then(m => m.HomePageModule)
       },
 
       {
         path: 'noticias',
         loadChildren: () =>
-          import('../noticias/noticias.module').then(
-            m => m.NoticiasPageModule
-          )
+          import('../noticias/noticias.module').then(m => m.NoticiasPageModule)
       },
 
       {
         path: 'reportes',
         loadChildren: () =>
-          import('../reportes/reportes.module').then(
-            m => m.ReportesPageModule
-          )
+          import('../reportes/reportes.module').then(m => m.ReportesPageModule)
       },
-       
+
       {
         path: 'multimedia',
         loadChildren: () =>
-          import('../multimedia/multimedia.module').then(
-            m => m.MultimediaPageModule
-          )
+          import('../multimedia/multimedia.module').then(m => m.MultimediaPageModule)
       },
 
       {
         path: 'comunidad',
-        loadChildren: () => import('../community/community.module').then(m => m.CommunityModule)
+        loadChildren: () =>
+          import('../community/community.module').then(m => m.CommunityModule)
       },
-
+      {
+        path: 'mapa',
+        loadChildren: () =>
+          import('../mapa/mapa.module').then(m => m.MapaPageModule)
+      },
+      {
+        path: 'tareas',
+        loadChildren: () =>
+          import('../tareas/tareas.module').then(m => m.TareasPageModule)
+      },
       {
         path: 'detalle-noticia',
         loadChildren: () =>
-          import('../detalle-noticia/detalle-noticia.module').then(
-            m => m.DetalleNoticiaPageModule
-          )
+          import('../detalle-noticia/detalle-noticia.module').then(m => m.DetalleNoticiaPageModule)
       },
 
       {
@@ -60,18 +60,13 @@ const routes: Routes = [
         redirectTo: 'home',
         pathMatch: 'full'
       }
-
+      
     ]
   }
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forChild(routes)
-  ],
-
-  exports: [
-    RouterModule
-  ],
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
 })
 export class TabsPageRoutingModule {}

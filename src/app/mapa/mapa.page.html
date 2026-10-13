@@ -1,0 +1,41 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Mapa comunitario</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="mapa-content">
+
+  <ion-card class="tarjeta-info">
+    <ion-card-header>
+      <ion-card-title>Ubicación y conectividad</ion-card-title>
+      <ion-card-subtitle>
+        Consulta el mapa y localiza tu posición.
+      </ion-card-subtitle>
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-badge [color]="enLinea ? 'success' : 'danger'">
+        {{ enLinea ? 'EN LÍNEA' : 'SIN CONEXIÓN' }}
+      </ion-badge>
+
+      <p>{{ mensajeUbicacion }}</p>
+    </ion-card-content>
+  </ion-card>
+
+  <div class="contenedor-mapa">
+    <div id="mapa-leaflet"></div>
+  </div>
+
+  <ion-button
+    expand="block"
+    class="boton-ubicacion"
+    (click)="localizarme()"
+    [disabled]="cargando">
+
+    <ion-icon name="locate-outline" slot="start"></ion-icon>
+
+    {{ cargando ? 'Buscando ubicación...' : 'Mi ubicación actual' }}
+  </ion-button>
+
+</ion-content>

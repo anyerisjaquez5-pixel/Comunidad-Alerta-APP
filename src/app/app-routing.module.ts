@@ -17,7 +17,11 @@ const routes: Routes = [
   {
     path: 'multimedia',
     loadChildren: () => import('./multimedia/multimedia.module').then( m => m.MultimediaPageModule)
+  },  {
+    path: 'mapa',
+    loadChildren: () => import('./mapa/mapa.module').then( m => m.MapaPageModule)
   }
+
 ];
 
 @NgModule({
