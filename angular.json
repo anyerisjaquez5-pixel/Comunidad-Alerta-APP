@@ -34,7 +34,10 @@
                 "output": "./svg"
               }
             ],
-            "styles": ["src/global.scss", "src/theme/variables.scss"],
+            "styles": [
+              "src/global.scss",
+              "src/theme/variables.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -80,7 +83,14 @@
             },
             "ci": {}
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development",
+          "options": {
+            "allowedHosts": [
+              "test-realtors-threshold-introduced.trycloudflare.com",
+              "golden-pulse-anthony-updates.trycloudflare.com",
+              ".trycloudflare.com"
+            ]
+          }
         },
         "extract-i18n": {
           "builder": "@angular/build:extract-i18n",
@@ -93,7 +103,9 @@
           "options": {
             "tsConfig": "tsconfig.spec.json",
             "buildTarget": "::development",
-            "setupFiles": ["src/test-setup.ts"]
+            "setupFiles": [
+              "src/test-setup.ts"
+            ]
           },
           "configurations": {
             "ci": {

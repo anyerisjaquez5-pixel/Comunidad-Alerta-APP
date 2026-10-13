@@ -8,6 +8,16 @@ import { Subscription } from 'rxjs';
 import { ConnectionStatus } from '@capacitor/network';
 import { NetworkService } from '../services/network.service';
 import { HttpClient } from '@angular/common/http';
+import * as L from 'leaflet';
+
+// Rutas de los iconos de Leaflet incluidos en src/assets/leaflet.
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'assets/leaflet/marker-icon-2x.png',
+  iconUrl: 'assets/leaflet/marker-icon.png',
+  shadowUrl: 'assets/leaflet/marker-shadow.png'
+});
+
 import {
   BleClient,
   ScanResult
@@ -21,6 +31,11 @@ import {
 export class HomePage implements OnInit, OnDestroy {
   conectado = true;
   tipoConexion = 'unknown';
+  private mapaComunidad?: L.Map;
+  private marcadorGPS?: L.Marker;
+  cargandoGPS = false;
+  mensajeGPS = '';
+
   dispositivosBluetooth: ScanResult[] = [];
   bluetoothActivo = false;
   buscandoBluetooth = false;
@@ -277,6 +292,81 @@ export class HomePage implements OnInit, OnDestroy {
   private actualizarVista(): void {
     if (!this.componenteDestruido) {
       this.cdr.detectChanges();
+    }
+  }
+
+
+  ionViewDidEnter(): void {
+    setTimeout(() => this.inicializarMapaComunidad(), 200);
+  }
+
+  private inicializarMapaComunidad(): void {
+    const el = document.getElementById('mapa-comunidad-alerta');
+    if (!el) return;
+    if (this.mapaComunidad) {
+      setTimeout(() => this.mapaComunidad?.invalidateSize(), 200);
+      return;
+    }
+    this.mapaComunidad = L.map(el).setView([19.42624, -70.67277], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap'
+    }).addTo(this.mapaComunidad);
+    L.marker([19.42624, -70.67277])
+      .addTo(this.mapaComunidad)
+      .bindPopup('Marcador de referencia aproximado de UAPA');
+    setTimeout(() => this.mapaComunidad?.invalidateSize(), 300);
+  }
+
+  async centrarUbicacionActual(): Promise<void> {
+    if (this.cargandoGPS) return;
+    this.cargandoGPS = true;
+    this.mensajeGPS = 'Solicitando ubicación...';
+    try {
+      const posicion = await new Promise<GeolocationPosition>((resolve, reject) => {
+        if (!navigator.geolocation) {
+          reject(new Error('Este navegador no admite geolocalización.'));
+          return;
+        }
+        if (!window.isSecureContext) {
+          reject(new Error('El GPS del navegador requiere HTTPS. Abre la web con una dirección HTTPS segura.'));
+          return;
+        }
+        navigator.geolocation.getCurrentPosition(
+          resolve,
+          (error) => {
+            const mensajes: Record<number, string> = {
+              1: 'Permiso de ubicación denegado. Autoriza la ubicación en el navegador.',
+              2: 'No se pudo determinar tu posición. Activa la ubicación del dispositivo.',
+              3: 'La búsqueda agotó el tiempo. Inténtalo en un lugar con mejor señal GPS.'
+            };
+            reject(new Error(mensajes[error.code] || 'Error desconocido de ubicación.'));
+          },
+          { enableHighAccuracy: true, timeout: 15000, maximumAge: 0 }
+        );
+      });
+      const lat = posicion.coords.latitude;
+      const lng = posicion.coords.longitude;
+      const punto: L.LatLngExpression = [lat, lng];
+      if (!this.mapaComunidad) this.inicializarMapaComunidad();
+      if (!this.mapaComunidad) throw new Error('El mapa no se ha inicializado.');
+      if (this.marcadorGPS) {
+        this.marcadorGPS.setLatLng(punto);
+      } else {
+        this.marcadorGPS = L.marker(punto).addTo(this.mapaComunidad);
+      }
+      this.marcadorGPS.bindPopup(
+        'Tu ubicación actual<br>Latitud: ' + lat.toFixed(6) +
+        '<br>Longitud: ' + lng.toFixed(6)
+      ).openPopup();
+      this.mapaComunidad.setView(punto, 17);
+      this.mensajeGPS = 'Ubicación obtenida: ' + lat.toFixed(6) + ', ' + lng.toFixed(6);
+    } catch (error) {
+      console.error('Error GPS:', error);
+      this.mensajeGPS = error instanceof Error ? error.message : 'No se pudo obtener la ubicación.';
+    } finally {
+      this.cargandoGPS = false;
+      this.actualizarVista();
     }
   }
 
